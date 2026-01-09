@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer utilities {
+  .form-input {
+    @apply p-6 font-bold text-2xl border-4 border-gray-200 rounded-md;
+  }
+  .submit-btn {
+    @apply p-2 font-light border-2 border-white bg-white rounded-4xl text-black w-1/6
+  }
+  .image-style {
+    @apply flex flex-col gap-4 items-center justify-center;
+  }
+}
