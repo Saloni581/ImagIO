@@ -57,21 +57,28 @@ const Page = () => {
                     onChange={(e) => setPrompt(e.target.value)}
                     required
                 />
+                <div className="center-flex">
                 <button
                     type="submit"
                     className="submit-btn"
-                >Generate Image</button>
+                    disabled={loading}
+                >
+                    {loading ? "Generating..." : "Generate Image"}
+                </button>
+                </div>
             </form>
             <div>
                 { loading ?
-                    <div className="spinner">
+                    <div className="center-flex">
                         <Spinner />
                     </div> :
                     (
                         <div className="image-style">
-                        <h1>Your Generated Image....</h1>
                         {imgUrl && (
+                            <div className="center-flex gap-4">
+                            <h1>Your Generated Image....</h1>
                             <Image src={`${imgUrl}`} alt="Generated Image" width={512} height={500} />
+                            </div>
                         )}
                     </div>
                 ) }
