@@ -3,13 +3,16 @@
 import React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
+import { Spinner } from "@/components/ui/spinner"
 
 const Page = () => {
 
     const [prompt, setPrompt] = useState<string>('');
     const [imgUrl, setImgUrl] = useState<string>('');
+    const [loading, setLoading] = useState(false);
 
     const generateImage = async () => {
+        setLoading(true);
         const url = 'https://ai-text-to-image-generator-flux-free-api.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/quick.php';
         const options = {
             method: 'POST',
@@ -29,8 +32,8 @@ const Page = () => {
             const response = await fetch(url, options);
             const result = await response.text();
             const parsedRes = JSON.parse(result);
-            setImgUrl(parsedRes.result.data.results[0].origin);
-            console.log(parsedRes.result.data.results[0].origin);
+            setImgUrl(parsedRes.result.data.results[1].origin);
+            setLoading(false);
         } catch (error) {
             console.error(error);
         }
@@ -59,11 +62,19 @@ const Page = () => {
                     className="submit-btn"
                 >Generate Image</button>
             </form>
-            <div className="image-style">
-                <h1>Your Generated Image....</h1>
-                {imgUrl && (
-                    <Image src={`${imgUrl}`} alt="Generated Image" width={512} height={500} />
-                )};
+            <div>
+                { loading ?
+                    <div className="spinner">
+                        <Spinner />
+                    </div> :
+                    (
+                        <div className="image-style">
+                        <h1>Your Generated Image....</h1>
+                        {imgUrl && (
+                            <Image src={`${imgUrl}`} alt="Generated Image" width={512} height={500} />
+                        )}
+                    </div>
+                ) }
             </div>
         </div>
     );
