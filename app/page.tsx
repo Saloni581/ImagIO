@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useState } from 'react';
-import Image from 'next/image';
 import { Spinner } from "@/components/ui/spinner"
 
 const Page = () => {
@@ -11,6 +10,7 @@ const Page = () => {
     const [imgUrl, setImgUrl] = useState<string>('');
     const [loading, setLoading] = useState(false);
 
+    // using rapidAPI's API
     const generateImage = async () => {
         setLoading(true);
         const url = 'https://ai-text-to-image-generator-flux-free-api.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/quick.php';
@@ -30,18 +30,51 @@ const Page = () => {
 
         try {
             const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(`Failed to Generate Image: ${response.statusText}`);
+            }
             const result = await response.text();
             const parsedRes = JSON.parse(result);
             setImgUrl(parsedRes.result.data.results[1].origin);
             setLoading(false);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     }
 
+    // Using Gemini API
+    const generateImageGemini = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch("/api/gemini", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    prompt: prompt,
+                })
+            })
+            if (!res.ok) {
+                throw new Error(`Failed to Generate Image: ${res.statusText}`);
+            }
+            const parsedRes = await res.json();
+            const { base64, mimeType } = parsedRes;
+            const imgUrl = `data:${mimeType};base64,${base64}`;
+            setImgUrl(imgUrl);
+        } catch(error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        await generateImage();
+        await generateImageGemini();
     }
 
     return (
@@ -77,7 +110,7 @@ const Page = () => {
                         {imgUrl && (
                             <div className="center-flex gap-4">
                             <h1>Your Generated Image....</h1>
-                            <Image src={`${imgUrl}`} alt="Generated Image" width={512} height={500} />
+                            <img src={`${imgUrl}`} alt="Generated Image" width={550} height={550} />
                             </div>
                         )}
                     </div>
