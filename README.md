@@ -6,7 +6,7 @@ This project is currently an **MVP (Minimum Viable Product)** and will be improv
 
 ---
 
-## ✨ Features
+## Features
 
 - Text-based prompt input  
 - Generates a single AI image per prompt  
@@ -24,10 +24,9 @@ This project is currently an **MVP (Minimum Viable Product)** and will be improv
 
 ---
 
-## 🚀 Getting Started
+## ![RocketGIF](https://github.com/user-attachments/assets/df56f85a-1817-41ff-9297-a729ae6bc8b8) Getting Started
 
 ### 1. Clone the repository
-```bash
 ```bash
 git clone https://github.com/Saloni581/ImagIO.git
 cd ImagIO
