@@ -28,8 +28,8 @@ This project is currently an **MVP (Minimum Viable Product)** and will be improv
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone [https://github.com/Saloni581/ImagIO.git](https://github.com/Saloni581/ImagIO.git)
+cd ImagIO
 ````
 
 ### 2. Install dependencies
