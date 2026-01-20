@@ -45,42 +45,42 @@ const Page = () => {
     }
 
     // Using Gemini API
-    const generateImageGemini = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch("/api/gemini", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    prompt: prompt,
-                })
-            })
-            if (!res.ok) {
-                throw new Error(`Failed to Generate Image: ${res.statusText}`);
-            }
-            const parsedRes = await res.json();
-            const { base64, mimeType } = parsedRes;
-            const imgUrl = `data:${mimeType};base64,${base64}`;
-            setImgUrl(imgUrl);
-        } catch(error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    }
+    // const generateImageGemini = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const res = await fetch("/api/gemini", {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 prompt: prompt,
+    //             })
+    //         })
+    //         if (!res.ok) {
+    //             throw new Error(`Failed to Generate Image: ${res.statusText}`);
+    //         }
+    //         const parsedRes = await res.json();
+    //         const { base64, mimeType } = parsedRes;
+    //         const imgUrl = `data:${mimeType};base64,${base64}`;
+    //         setImgUrl(imgUrl);
+    //     } catch(error) {
+    //         console.error(error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        await generateImageGemini();
+        await generateImage();
     }
 
     return (
         <div>
             <form
-                className="m-24 flex flex-col gap-6"
+                className="m-24 gap-6 md:center-flex form"
                 onSubmit={handleSubmit}
             >
                 <input
@@ -106,7 +106,7 @@ const Page = () => {
                         <Spinner />
                     </div> :
                     (
-                        <div className="image-style">
+                        <div className="image-div">
                         {imgUrl && (
                             <div className="center-flex gap-4">
                             <h1>Your Generated Image....</h1>
